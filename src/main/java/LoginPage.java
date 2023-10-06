@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 public class LoginPage extends JFrame {
     public LoginPage(LoginSystem loginSystem) {
         setSize(500,700);
+        setTitle("Login page");
         setLayout(new GridLayout(5,2));
         JLabel email = new JLabel("Enter email");
         JTextField enteredEmail = new JTextField();

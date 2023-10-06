@@ -31,7 +31,8 @@ public class IntroPageGraphics extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
+                RegisterPage registerPage = new RegisterPage(loginSystem);
             }
         });
 
