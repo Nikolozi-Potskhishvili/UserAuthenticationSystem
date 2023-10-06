@@ -5,19 +5,21 @@ public class Profile {
     private String lastName;
     private String gender;
     private int age;
-    private LocalDate bithDay;
     private String password;
     private String email;
 
-    public Profile(String firstName, String lastName, String gender, int age, LocalDate bithDay,
+    public Profile(String firstName, String lastName, String gender, int age,
                    String password,String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.age = age;
-        this.bithDay = bithDay;
         this.password = password;
         this.email = email;
+    }
+
+    public boolean containsEmail(String checkEmail) {
+        return email.equals(checkEmail);
     }
 
     public void changePassword(String password) {
