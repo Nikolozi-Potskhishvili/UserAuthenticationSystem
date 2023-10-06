@@ -35,29 +35,12 @@ public class LoginSystem {
     }
 
     public static void main(String[] args) {
-        //LoginSystem loginSystem = new LoginSystem();
-        Properties properties = new Properties();
-        try (InputStream is = LoginSystem.class.getClassLoader().getResourceAsStream("application.properties")) {
-            properties.load(is);
-        } catch (IOException e) {
-            throw new RuntimeException("Error loading application.properties", e);
-        }
-
-        String dbUrl = properties.getProperty("db.url");
-        String dbUsername = properties.getProperty("db.username");
-        String dbPassword = properties.getProperty("db.password");
-
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            Statement st = conn.createStatement();
-            String sql = "SELECT * FROM persons";
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            String res = rs.getString(5);
-            conn.close();
-            System.out.println(res);
+            LoginSystem loginSystem = new LoginSystem();
+            var databaseConnectionManager = new DatabaseConnectionManager();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
     }
 }
