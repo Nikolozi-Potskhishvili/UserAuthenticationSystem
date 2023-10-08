@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,9 +12,8 @@ public class LoginSystem {
     private ArrayList<Profile> database;
 
     public LoginSystem() throws Exception {
-        IntroPageGraphics graphics = new IntroPageGraphics(this);
-
-
+        var databaseConnectionManager = new DatabaseConnectionManager();
+        IntroPageGraphics graphics = new IntroPageGraphics(this,databaseConnectionManager);
     }
 
     public void addProfile(Profile profile) {
@@ -36,14 +36,14 @@ public class LoginSystem {
 
     public static void main(String[] args) {
         try {
-            //LoginSystem loginSystem = new LoginSystem();
-            var databaseConnectionManager = new DatabaseConnectionManager();
-            databaseConnectionManager.addProfile("Nika","Postkhishvili","Male",20,"1131","ninjanika3@gmail.com");
+
+            LoginSystem loginSystem = new LoginSystem();
+            /*databaseConnectionManager.addProfile("Nika","Postkhishvili","Male",20,"1131","ninjanika3@gmail.com");
             System.out.println(databaseConnectionManager.containsProfile("ninjanika3@gmail.com"));
             //databaseConnectionManager.removeProfile("ninjanika3@gmail.com");
             System.out.println(databaseConnectionManager.checkPassword("ninjanika3@gmail.com","1131"));
             System.out.println(databaseConnectionManager.checkPassword("ninjanika3@gmail.com","1231"));
-            //System.out.println(databaseConnectionManager.containsProfile("ninjanika3@gmail.com"));
+            //System.out.println(databaseConnectionManager.containsProfile("ninjanika3@gmail.com"));*/
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -4,15 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginPage extends JFrame {
-    public LoginPage(LoginSystem loginSystem) {
+    private final JTextField enteredPassword;
+
+    private final JTextField enteredEmail;
+    public LoginPage(LoginSystem loginSystem, DatabaseConnectionManager databaseConnectionManager) {
         setSize(500,700);
         setTitle("Login page");
         setLayout(new GridLayout(5,2));
         JLabel email = new JLabel("Enter email");
-        JTextField enteredEmail = new JTextField();
+        enteredEmail = new JTextField();
 
         JLabel password = new JLabel("Enter password");
-        JTextField enteredPassword = new JTextField();
+        enteredPassword = new JTextField();
 
         JButton okButton = new JButton("OK");
         JButton cancelButton = new JButton("Cancel");
@@ -20,7 +23,17 @@ public class LoginPage extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                if(databaseConnectionManager.containsProfile(getEnteredEmail())) {
+                    if(databaseConnectionManager.checkPassword(getEnteredEmail(),getEnteredPassword())) {
+                        JOptionPane.showMessageDialog(new JFrame(),"You successfully have logined");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(),"Password is incorrect");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(),"Email is not valid");
+                }
+
             }
         });
 
@@ -28,7 +41,7 @@ public class LoginPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                IntroPageGraphics introPageGraphics = new IntroPageGraphics(loginSystem);
+                IntroPageGraphics introPageGraphics = new IntroPageGraphics(loginSystem, databaseConnectionManager);
             }
         });
 
@@ -43,4 +56,13 @@ public class LoginPage extends JFrame {
 
         setVisible(true);
     }
+
+    private String getEnteredEmail() {
+        return enteredEmail.getText().toString();
+    }
+
+    private String getEnteredPassword() {
+        return enteredPassword.getText().toString();
+    }
+
 }

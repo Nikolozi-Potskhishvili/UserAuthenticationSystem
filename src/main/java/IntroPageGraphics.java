@@ -5,7 +5,10 @@ import java.awt.event.ActionListener;
 
 public class IntroPageGraphics extends JFrame {
     private LoginSystem loginSystem;
-    public IntroPageGraphics(LoginSystem loginSystem) {
+
+    private DatabaseConnectionManager databaseConnectionManager;
+    public IntroPageGraphics(LoginSystem loginSystem, DatabaseConnectionManager databaseConnectionManager) {
+        this.databaseConnectionManager = databaseConnectionManager;
         this.loginSystem = loginSystem;
         init();
     }
@@ -24,7 +27,7 @@ public class IntroPageGraphics extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                LoginPage loginPage = new LoginPage(loginSystem);
+                LoginPage loginPage = new LoginPage(loginSystem, databaseConnectionManager);
             }
         });
 
@@ -32,7 +35,7 @@ public class IntroPageGraphics extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                RegisterPage registerPage = new RegisterPage(loginSystem);
+                RegisterPage registerPage = new RegisterPage(loginSystem, databaseConnectionManager);
             }
         });
 

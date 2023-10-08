@@ -5,8 +5,13 @@ import java.awt.event.ActionListener;
 
 public class RegisterPage extends JFrame{
     private LoginSystem loginSystem;
+    private DatabaseConnectionManager databaseConnectionManager;
     private String finalPassword;
-    public RegisterPage(LoginSystem loginSystem) {
+    private JTextField passwordTextArea;
+    private JTextField confirmPasswordTextArea;
+    private JTextField emailTextArea;
+    public RegisterPage(LoginSystem loginSystem, DatabaseConnectionManager databaseConnectionManager) {
+        this.databaseConnectionManager = databaseConnectionManager;
         this.loginSystem = loginSystem;
         init();
     }
@@ -26,10 +31,10 @@ public class RegisterPage extends JFrame{
         JTextField firstNameTextArea = new JTextField();
         JTextField lastNameTextArea = new JTextField();
         JTextField genderTextArea = new JTextField();
-        JTextField ageNameTextArea = new JTextField();
-        JTextField emailTextArea = new JTextField();
-        JTextField passwordTextArea = new JTextField();
-        JTextField confirmPasswordTextArea = new JTextField();
+        JTextField ageTextArea = new JTextField();
+        emailTextArea = new JTextField();
+        passwordTextArea = new JTextField();
+        confirmPasswordTextArea = new JTextField();
 
         JButton okButton = new JButton("OK");
         JButton cancelButton = new JButton("Cancel");
@@ -37,15 +42,19 @@ public class RegisterPage extends JFrame{
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Profile currentProfile = new Profile(firstName.getText(),lastName.getText(),gender.getText(),
-                        Integer.valueOf(age.getText()), emailTextArea.getText(), confirmPasswordTextArea.getText());
-                if(loginSystem.containsProfile(currentProfile)) {
-
+                if(databaseConnectionManager.containsProfile(getEnteredEmail())) {
+                    JOptionPane.showMessageDialog(new Frame(),"This email already is registered");
                 } else {
-                    loginSystem.addProfile(currentProfile);
+                    if(!passwordIsCorrect()) {
+                        JOptionPane.showMessageDialog(new Frame(),"Your passwords do not match");
+                    } else {
+                        databaseConnectionManager.addProfile(firstNameTextArea.getText().toString(),lastNameTextArea.getText().toString(),
+                                genderTextArea.getText().toString(), Integer.parseInt(ageTextArea.getText().toString()),getEnteredConfirmedPassword(),getEnteredEmail());
+                        JOptionPane.showMessageDialog(new Frame(),"You successfully created new account");
+                    }
                 }
                 dispose();
-                IntroPageGraphics introPageGraphics= new IntroPageGraphics(loginSystem);
+                IntroPageGraphics introPageGraphics= new IntroPageGraphics(loginSystem, databaseConnectionManager);
             }
         });
 
@@ -53,7 +62,7 @@ public class RegisterPage extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                IntroPageGraphics introPageGraphics= new IntroPageGraphics(loginSystem);
+                IntroPageGraphics introPageGraphics= new IntroPageGraphics(loginSystem, databaseConnectionManager);
             }
         });
 
@@ -67,7 +76,7 @@ public class RegisterPage extends JFrame{
         add(genderTextArea);
 
         add(age);
-        add(ageNameTextArea);
+        add(ageTextArea);
 
         add(email);
         add(emailTextArea);
@@ -85,11 +94,19 @@ public class RegisterPage extends JFrame{
     }
 
     private boolean passwordIsCorrect() {
-        return false;
+        return getEnteredPassword().equals(getEnteredConfirmedPassword());
     }
 
-    private boolean checkProfile(Profile profile) {
-        return true;
+    private String getEnteredEmail() {
+        return emailTextArea.getText().toString();
+    }
+
+    private String getEnteredPassword() {
+        return passwordTextArea.getText().toString();
+    }
+
+    private String getEnteredConfirmedPassword() {
+        return confirmPasswordTextArea.getText().toString();
     }
 
 }

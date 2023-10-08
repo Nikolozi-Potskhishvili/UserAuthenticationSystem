@@ -51,6 +51,7 @@ public class DatabaseConnectionManager {
                     return storedPassword.equals(password);
                 } else {
                     System.out.println("No matching email found");
+
                     return false;
                 }
             } catch (Exception e) {
